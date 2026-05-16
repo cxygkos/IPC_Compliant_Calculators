@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPC compliant calculators</title>
+    <script>
+        (function() {
+            const storedTheme = localStorage.getItem("theme");
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const theme = storedTheme ? storedTheme : (prefersDark ? "dark" : "light");
+            if (theme === "dark") {
+                document.documentElement.setAttribute("data-theme", "dark");
+            }
+            if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-left">
+                <button id="sidebar-toggle" class="sidebar-toggle-btn" aria-label="Toggle Sidebar">☰</button>
+                <button id="home-btn" class="home-nav-btn" aria-label="Go Home" title="Home">🏠</button>
+            </div>
+            
+            <div class="header-titles">
+                <h1>IPC compliant calculators for daily use</h1>
+                <i>This is work in progress. Always verify with official resources.</i>
+            </div>
+            
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Dark Mode">🌙 Dark Mode</button>
+        </div>
+    </header>
+
+    <main class="app-container">
+        
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-inner">
+                <ul id="calculator-nav">
+                    <li><a href="javascript:void(0)" data-target="home-page">Home</a></li>
+                    
+                    <li class="nav-divider"></li>
+                    
+                    <li><a href="javascript:void(0)" data-target="calc-ipc-pad-hole">IPC Pad & Hole Size</a></li>
+                    <li><a href="javascript:void(0)" data-target="calc-ipc-hole-to-pad">Hole to Pad Size</a></li>
+                    <li><a href="javascript:void(0)" data-target="calc-ipc-courtyard">Courtyard Size</a></li>
+                    <li><a href="javascript:void(0)" data-target="calc-ipc-name-gen">IPC Name Generator</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <section class="calculator-display" id="calculator-display">
+            
+            <div id="home-page" class="calculator-module" style="display: none;">
+                <h2>Welcome to your Engineering Hub</h2>
+                <p>Select a calculator from the sidebar or click a feature card below to begin. This workspace is designed to provide quick, reliable, and standardized calculations for your daily design needs.</p>
+                
+                <div class="home-features-grid" style="margin-top: 2.5rem;">
+                    <h3 style="margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Available Tools:</h3>
+                    
+                    <div class="input-grid">
+                        <div class="info-box feature-card" data-link="calc-ipc-pad-hole">
+                            <strong>IPC Pad & Hole Size</strong>
+                            <p>Calculate minimum hole and pad dimensions from a component's pin size per IPC-2221 and IPC-2222 standards.</p>
+                            <span class="card-action">Open Tool →</span>
+                        </div>
+
+                        <div class="info-box feature-card" data-link="calc-ipc-hole-to-pad">
+                            <strong>Hole to Pad Size</strong>
+                            <p>Determine the required pad (land) size when a datasheet provides a recommended finished hole or slot size.</p>
+                            <span class="card-action">Open Tool →</span>
+                        </div>
+
+                        <div class="info-box feature-card" data-link="calc-ipc-courtyard">
+                            <strong>Courtyard Size</strong>
+                            <p>Calculate the IPC-7351 compliant manufacturing placement boundary based on max component extents.</p>
+                            <span class="card-action">Open Tool →</span>
+                        </div>
+
+                        <div class="info-box feature-card" data-link="calc-ipc-name-gen">
+                            <strong>IPC Name Generator</strong>
+                            <p>Automatically format standard footprint names based on component dimensions.</p>
+                            <span class="card-action">Open Tool →</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="calc-ipc-pad-hole" class="calculator-module" style="display: none;">
+                <h2>IPC Through-Hole Pad & Hole Calculator</h2>
+                <p>Calculates required hole and pad sizes based on component pin size.</p>
+                
+                <div class="info-box">
+                    <strong>What is the Annular Ring?</strong>
+                    <p style="margin-top: 0.5rem; margin-bottom: 0;">The ring of copper between the edge of the drilled hole and the outer edge of the pad. It is critical for ensuring reliable through-hole plating, preventing drill breakout, and providing mechanical strength for soldering.</p>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-group full-span">
+                        <label for="pin-shape">Pin Shape:</label>
+                        <select id="pin-shape">
+                            <option value="round">Round</option>
+                            <option value="square">Square / Rectangular</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="pin-size">Pin Size / Width:</label>
+                        <input type="number" id="pin-size" step="any" placeholder="Enter dimension">
+                    </div>
+                
+                    <div class="input-group">
+                        <label for="pin-unit">Unit:</label>
+                        <select id="pin-unit">
+                            <option value="mm">Millimeters (mm)</option>
+                            <option value="in">Inches (in)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group full-span">
+                        <label for="annular-ring-select">Annular Ring Size:</label>
+                        <select id="annular-ring-select">
+                            <option value="ipc">0.05mm (IPC Class 1) - General Electronic Products (e.g., disposable electronics, consumer toys)</option>
+                            <option value="0.10">0.10mm (IPC Class 2) - Dedicated Service Electronic Products (e.g., household appliances, standard industrial equipment)</option>
+                            <option value="0.15">0.15mm (IPC Class 3) - High-Reliability Electronic Products (e.g., military, aerospace, life-support medical devices)</option>
+                            <option value="custom">Custom Size...</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group full-span" id="group-custom-annular" style="display: none;">
+                        <label for="custom-annular-input">Custom Annular Ring (mm):</label>
+                        <input type="number" id="custom-annular-input" step="any" placeholder="e.g., 0.12">
+                    </div>
+                </div>
+            
+                <button id="btn-calc-ipc">Calculate Dimensions</button>
+            
+                <div id="ipc-results" class="results-container" style="display: none;">
+                    <div class="info-box density-guide">
+                        <strong>Density Levels Guide:</strong> <em>Level A</em> provides maximum robustness for general design. <em>Level B</em> is nominal/standard. <em>Level C</em> is for high-density, compact routing where space is at a premium.
+                    </div>
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>IPC Level</th>
+                                <th>Density Level</th>
+                                <th>Finished Hole Size</th>
+                                <th>Pad Diameter</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ipc-results-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="calc-ipc-hole-to-pad" class="calculator-module" style="display: none;">
+                <h2>Datasheet Hole to Pad Size</h2>
+                <p>Calculates required pad (land) size from a known, datasheet-recommended hole or slot size.</p>
+                
+                <div class="info-box">
+                    <strong>Why is calculating a robust final pad size important?</strong>
+                    <p style="margin-top: 0.5rem; margin-bottom: 0;">When a manufacturer's datasheet specifies a <em>Finished Hole Size</em> instead of the raw lead dimensions, you must factor in fabrication allowances to calculate the pad. This calculator reverses the standard IPC formulas, ensuring that manufacturing drift (drill wander) won't cause "drill breakout" and compromise your annular ring.</p>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-group full-span">
+                        <label for="hole-pad-type">Geometry Type:</label>
+                        <select id="hole-pad-type">
+                            <option value="round">Standard Round Hole</option>
+                            <option value="oblong">Round Hole w/ Oblong Pad</option>
+                            <option value="slot">Plated Slot</option>
+                        </select>
+                    </div>
+
+                    <div class="input-grid" style="grid-column: 1 / -1; margin-top: 0;">
+                        <div class="input-group" id="group-hole-size">
+                            <label for="hole-input-size">Recommended Hole Size / Diameter:</label>
+                            <input type="number" id="hole-input-size" step="any" placeholder="Enter hole dimension">
+                        </div>
+
+                        <div class="input-group" id="group-pad-x" style="display: none;">
+                            <label for="pad-input-x">Pad X Dimension (Fixed Width):</label>
+                            <input type="number" id="pad-input-x" step="any" placeholder="Enter desired pad X dimension">
+                        </div>
+
+                        <div class="input-group" id="group-slot-length" style="display: none;">
+                            <label for="slot-input-length">Slot Length (X Dimension):</label>
+                            <input type="number" id="slot-input-length" step="any" placeholder="Enter slot length (X)">
+                        </div>
+
+                        <div class="input-group" id="group-slot-width" style="display: none;">
+                            <label for="slot-input-width">Slot Width (Y Dimension):</label>
+                            <input type="number" id="slot-input-width" step="any" placeholder="Enter slot width (Y)">
+                        </div>
+                    
+                        <div class="input-group">
+                            <label for="hole-input-unit">Unit:</label>
+                            <select id="hole-input-unit">
+                                <option value="mm">Millimeters (mm)</option>
+                                <option value="in">Inches (in)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            
+                <button id="btn-calc-hole-to-pad">Calculate Pad Size</button>
+            
+                <div id="hole-to-pad-results" class="results-container" style="display: none;">
+                    <div class="info-box density-guide">
+                        <strong>Density Levels Guide:</strong> <em>Level A</em> provides maximum robustness for general design. <em>Level B</em> is nominal/standard. <em>Level C</em> is for high-density, compact routing where space is at a premium.
+                    </div>
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>IPC Level</th>
+                                <th>Density Level</th>
+                                <th>Final Pad Size</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hole-to-pad-results-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="calc-ipc-courtyard" class="calculator-module" style="display: none;">
+                <h2>IPC-7351 Courtyard Calculator</h2>
+                <p>Calculates the required manufacturing courtyard boundary around a component.</p>
+                
+                <div class="info-box">
+                    <strong>What is the courtyard?</strong>
+                    <p style="margin-top: 0.5rem; margin-bottom: 0;">The <em>Courtyard</em> is the absolute minimum protective perimeter required around a component. It guarantees enough physical clearance for pick-and-place machine nozzles, manual rework tools (like soldering irons), and automated optical inspection (AOI) cameras without colliding with adjacent parts.</p>
+                </div>
+                
+                <div class="info-box guide-box">
+                    <strong>Measurement Guide:</strong> To ensure accurate IPC compliance, input the <em>outermost boundary</em> of either the component body or the pads/land pattern—whichever is larger. Measure the absolute maximum X and Y footprint including any protruding pins or required pad toes.
+                </div>
+                
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="court-dim-x">Maximum Dimension X:</label>
+                        <input type="number" id="court-dim-x" step="any" placeholder="Enter max X dimension">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="court-dim-y">Maximum Dimension Y:</label>
+                        <input type="number" id="court-dim-y" step="any" placeholder="Enter max Y dimension">
+                    </div>
+                    
+                    <div class="input-group full-span">
+                        <label for="court-unit">Unit:</label>
+                        <select id="court-unit">
+                            <option value="mm">Millimeters (mm)</option>
+                            <option value="in">Inches (in)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button id="btn-calc-courtyard">Calculate Courtyard</button>
+                
+                <div id="courtyard-results" class="results-container" style="display: none;">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>IPC Level</th>
+                                <th>Density Level</th>
+                                <th>Final Rounded Courtyard Size</th>
+                            </tr>
+                        </thead>
+                        <tbody id="courtyard-results-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="calc-ipc-name-gen" class="calculator-module" style="display: none;">
+                <h2>Universal IPC Name Generator</h2>
+                <p>Generates standardized IPC footprint names based on metric component dimensions. Supports both IPC-7351 (SMD) and IPC-7251 (Through-Hole).</p>
+                
+                <div class="info-box">
+                    <strong>Why are consistent names important?</strong>
+                    <p style="margin-top: 0.5rem; margin-bottom: 0;">Standardized IPC naming is crucial for robust BOM management and ECAD/MCAD alignment. By formatting names strictly based on physical geometry (e.g., Pitch, Length, Width, Height) rather than manufacturer part numbers, you prevent library duplication and ensure absolute clarity for fabrication and assembly houses.</p>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-group full-span">
+                        <label for="name-family">Component Architecture:</label>
+                        <select id="name-family">
+                            <optgroup label="IPC-7351 Surface Mount (SMD)">
+                                <option value="passives">2-Pin SMD Passives (Resistors, Capacitors, Inductors)</option>
+                                <option value="melf">Cylindrical Passives (MELF)</option>
+                                <option value="base_mount">Base-Mounted (Aluminum Electrolytics, Base Inductors)</option>
+                                <option value="dual_lead">Dual-In-Line & Transistors (SOIC, SOT, TO, DPAK, SOJ)</option>
+                                <option value="quad_lead">Quad Packages (QFP, CQFP, PLCC)</option>
+                                <option value="grid_no_lead">Grid Arrays & No-Lead (BGA, QFN, DFN, LCC, Arrays)</option>
+                            </optgroup>
+                            <optgroup label="IPC-7251 Through-Hole (THT)">
+                                <option value="tht_axial">THT Axial (Resistors, Diodes, Capacitors)</option>
+                                <option value="tht_radial">THT Radial (Capacitors, LEDs, Varistors)</option>
+                                <option value="tht_dip">THT Dual In-Line (DIP, SIP)</option>
+                            </optgroup>
+                            <optgroup label="Custom Naming">
+                                <option value="custom">Custom / Non-Standard</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="input-group full-span" id="group-prefix">
+                        <label for="name-prefix">Component Type (Prefix):</label>
+                        <select id="name-prefix"></select>
+                    </div>
+
+                    <div class="input-group full-span" id="group-prefix-custom" style="display: none;">
+                        <label for="name-prefix-text">Custom Prefix (e.g., CONN, SIM, MOD, SW):</label>
+                        <input type="text" id="name-prefix-text" placeholder="Enter custom prefix">
+                    </div>
+
+                    <div class="input-group" id="group-pitch" style="display: none;">
+                        <label id="label-pitch" for="name-pitch">Pin Pitch (mm):</label>
+                        <input type="number" id="name-pitch" step="any" placeholder="e.g., 1.27">
+                    </div>
+
+                    <div class="input-group" id="group-span" style="display: none;">
+                        <label id="label-span" for="name-span">Row Spacing / Span (mm):</label>
+                        <input type="number" id="name-span" step="any" placeholder="e.g., 7.62">
+                    </div>
+
+                    <div class="input-group" id="group-lead-width" style="display: none;">
+                        <label id="label-lead-width" for="name-lead-width">Lead Diameter / Width (mm):</label>
+                        <input type="number" id="name-lead-width" step="any" placeholder="e.g., 0.60">
+                    </div>
+
+                    <div class="input-group" id="group-pins" style="display: none;">
+                        <label for="name-pins">Pin Count:</label>
+                        <input type="number" id="name-pins" step="1" placeholder="e.g., 14">
+                    </div>
+
+                    <div class="input-group" id="group-dim-x" style="display: none;">
+                        <label id="label-dim-x" for="name-dim-x">Dimension X (mm):</label>
+                        <input type="number" id="name-dim-x" step="any" placeholder="e.g., 2.0">
+                    </div>
+
+                    <div class="input-group" id="group-dim-y" style="display: none;">
+                        <label id="label-dim-y" for="name-dim-y">Dimension Y (mm):</label>
+                        <input type="number" id="name-dim-y" step="any" placeholder="e.g., 1.25">
+                    </div>
+
+                    <div class="input-group full-span" id="group-height" style="display: none;">
+                        <label for="name-height">Maximum Component Height (mm):</label>
+                        <input type="number" id="name-height" step="any" placeholder="e.g., 0.60 or 1.75">
+                    </div>
+                </div>
+                
+                <button id="btn-calc-name-gen">Generate IPC Names</button>
+                
+                <div id="name-results" class="results-container" style="display: none;">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>IPC Level</th>
+                                <th>Density Level</th>
+                                <th>Generated IPC Footprint Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="name-results-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <footer class="app-disclaimer-footer">
+                <p><strong>Disclaimer:</strong> This suite of tools is provided for reference and educational purposes only. Calculations and formatting logic are generated based on industry standards, developed in part with the assistance of automated artificial intelligence technologies. Because fabrication environments and manufacturing tolerances vary, no warranties are provided, express or implied, regarding absolute accuracy or compliance. Use at your own risk. Always verify final patterns against official component datasheets and manufacturer guidelines before processing production orders.</p>
+            </footer>
+
+        </section>
+
+    </main>
+
+    <div id="custom-alert-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Input Error</h3>
+                <button id="close-modal-btn" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="custom-alert-text">Error message goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="ok-modal-btn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="calculators/ipc-pad-hole.js"></script>
+    <script src="calculators/ipc-hole-to-pad.js"></script>
+    <script src="calculators/ipc-courtyard.js"></script>
+    <script src="calculators/ipc-name-generator.js"></script>
+</body>
+</html>
