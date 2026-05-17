@@ -389,7 +389,11 @@ input[type=number] {
     .header-left { position: absolute; left: 1.5rem; top: 1.2rem; transform: none; }
     
     .app-container { flex-direction: column; }
-    .sidebar.open { width: 100%; border-right: none; border-bottom: 1px solid var(--border-color); }
+    
+    /* Reverted exactly to your base, added ONLY height properties to fix the gap */
+    .sidebar { height: 0; }
+    .sidebar.open { height: auto; width: 100%; border-right: none; border-bottom: 1px solid var(--border-color); }
+    
     .sidebar-inner { width: 100vw; box-sizing: border-box; }
     .sidebar li.nav-divider { display: none; }
     .input-grid { grid-template-columns: 1fr; }
