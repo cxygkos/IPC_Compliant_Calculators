@@ -336,8 +336,20 @@ input[type=number] {
 .calculator-module button:hover { background-color: var(--primary-btn-hover); }
 
 /* TABLES & ROBUST HIGHLIGHTS */
-.results-container { border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; margin-top: 1rem; }
-.results-table { width: 100%; border-collapse: collapse; background-color: var(--bg-surface); }
+.results-container { 
+    border: 1px solid var(--border-color); 
+    border-radius: 12px; 
+    overflow-x: auto; /* Enables horizontal scrolling on small screens */
+    overflow-y: hidden; 
+    margin-top: 1rem;
+    -webkit-overflow-scrolling: touch;  /* Adds smooth momentum scrolling on iOS */
+}
+.results-table { 
+    width: 100%; 
+    min-width: 650px; /* Forces the scrollbar to appear instead of squishing text */
+    border-collapse: collapse; 
+    background-color: var(--bg-surface); 
+}
 .results-table th { background-color: var(--table-header-bg); padding: 1.2rem 1rem; font-size: 0.9rem; text-transform: uppercase; text-align: left; color: var(--text-primary); border-bottom: 2px solid var(--border-color); }
 .results-table td { padding: 1.2rem 1rem; border-bottom: 1px solid var(--border-light); text-align: left; color: var(--text-primary); font-size: 1rem; }
 .results-table tbody tr:nth-child(even) { background-color: var(--table-row-even); }
