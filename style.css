@@ -303,7 +303,12 @@ body {
 }
 
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+
+/* FIXED COMPATIBILITY PER EDITOR WARNING */
+input[type=number] { 
+    -moz-appearance: textfield; 
+    appearance: textfield;
+}
 
 /* UI Decoration */
 .info-box { background-color: var(--info-bg); border-left: 4px solid var(--info-border); padding: 1.2rem; margin-bottom: 1.5rem; border-radius: 8px; color: var(--text-primary); }
@@ -342,12 +347,55 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 /* FORCED HIGHLIGHTS */
 #ipc-results-body td:nth-child(3),
 #ipc-results-body td:nth-child(4),
-#name-results-body td:last-child,
 #hole-to-pad-results-body td:last-child,
 #courtyard-results-body td:last-child {
     font-weight: 700 !important;
     color: var(--sidebar-link-active) !important;
     font-size: 1.1rem !important;
+}
+
+/* =========================================
+ * COPY BUTTON & RESULT CELL STYLING
+ * ========================================= */
+.result-action-cell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.generated-name-text {
+    font-weight: 700;
+    color: var(--sidebar-link-active);
+    font-size: 1.1rem;
+}
+
+/* THE FIX: .calculator-module .copy-btn overrides the global button settings! */
+.calculator-module .copy-btn {
+    background-color: transparent !important; /* Strips the blue background */
+    border: none !important; 
+    box-shadow: none !important; /* Strips the blue glow/border */
+    outline: none; /* Removes browser default focus ring */
+    margin: 0; /* Strips the giant auto margins */
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.4rem;
+    line-height: 0; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: transform 0.1s ease, color 0.2s ease;
+    opacity: 0.7; 
+    width: auto;
+}
+
+.calculator-module .copy-btn:hover {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    color: var(--sidebar-link-active); 
+    opacity: 1;
+    transform: scale(1.1); 
 }
 
 /* =========================================
@@ -378,16 +426,15 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 .modal-footer button { margin: 0; padding: 0.6rem 1.5rem; border-radius: 8px;}
 
 /* =========================================
- * MOBILE TWEAKS (STABLE RESIZING RULES)
+ * MOBILE TWEAKS
  * ========================================= */
 @media (max-width: 768px) {
-    .app-header { flex-direction: column; height: auto; padding: 1.5rem; padding-top: 3.5rem; }
+    .app-header { flex-direction: column; height: auto; padding: 1.5rem; padding-top: 4.5rem; }
     .theme-toggle-btn { position: static; margin-top: 1.5rem; transform: none; }
     .header-left { position: absolute; left: 1.5rem; top: 1.2rem; transform: none; }
     
     .app-container { flex-direction: column; }
     
-    /* Height at 0 removes mobile whitespace anomalies cleanly */
     .sidebar { height: 0; }
     .sidebar.open { height: auto; width: 100%; border-right: none; border-bottom: 1px solid var(--border-color); }
     
@@ -396,7 +443,6 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
     .input-grid { grid-template-columns: 1fr; }
     .app-disclaimer-footer { margin-top: 2.5rem; }
 
-    /* Makes ONLY the raw data rows overflow scrollable horizontally on narrow mobile viewports */
     .results-table {
         display: block;
         overflow-x: auto;
