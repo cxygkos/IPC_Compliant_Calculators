@@ -7,6 +7,8 @@
 
 html, body {
     scroll-behavior: auto !important;
+    overflow-x: hidden; /* THE FIX: Forbids the mobile browser from zooming out */
+    width: 100%;
 }
 
 :root {
@@ -185,6 +187,7 @@ body {
 .app-container {
     display: flex;
     flex-direction: row;
+    width: 100%;
     max-width: 1400px;
     margin: 0 auto;
     min-height: calc(100vh - 80px);
@@ -254,7 +257,7 @@ body {
     flex: 1;
     padding: 2.5rem;
     background-color: var(--bg-surface);
-    min-width: 0; /* Prevents container from stretching infinitely */
+    min-width: 0;
 }
 
 /* Center the modules */
@@ -262,7 +265,7 @@ body {
     max-width: 950px;
     margin: 0 auto;
     width: 100%;
-    min-width: 0; /* Prevents module from stretching infinitely */
+    min-width: 0;
 }
 
 /* Feature Cards */
@@ -340,105 +343,4 @@ input[type=number] {
 /* TABLES & ROBUST HIGHLIGHTS */
 .results-container { 
     border: 1px solid var(--border-color); 
-    border-radius: 12px; 
-    margin-top: 1rem; 
-    overflow: hidden; 
-}
-
-/* THE BULLETPROOF SCROLL WRAPPER */
-.table-scroll-wrapper {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-.results-table { 
-    width: 100%; 
-    min-width: 700px; /* Refuses to shrink on mobile */
-    border-collapse: collapse; 
-    background-color: var(--bg-surface); 
-}
-
-.results-table th,
-.results-table td {
-    padding: 1.2rem 1rem;
-    text-align: left;
-    color: var(--text-primary);
-    white-space: nowrap; 
-}
-
-.results-table th { 
-    background-color: var(--table-header-bg); 
-    font-size: 0.9rem; 
-    text-transform: uppercase; 
-    border-bottom: 2px solid var(--border-color); 
-}
-
-.results-table td { 
-    border-bottom: 1px solid var(--border-light); 
-    font-size: 1rem; 
-}
-
-.results-table tbody tr:nth-child(even) { background-color: var(--table-row-even); }
-.results-table tbody tr { transition: background-color 0.2s ease; }
-.results-table tbody tr:hover { background-color: var(--table-hover); }
-
-/* FORCED HIGHLIGHTS */
-#ipc-results-body td:nth-child(3),
-#ipc-results-body td:nth-child(4),
-#name-results-body td:last-child,
-#hole-to-pad-results-body td:last-child,
-#courtyard-results-body td:last-child {
-    font-weight: 700 !important;
-    color: var(--sidebar-link-active) !important;
-    font-size: 1.1rem !important;
-}
-
-/* =========================================
- * SUBTLE DISCLAIMER FOOTER STYLING
- * ========================================= */
-.app-disclaimer-footer {
-    margin-top: 4rem;
-    padding-top: 1.5rem;
-    border-top: 1px dashed var(--border-color);
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-    line-height: 1.5;
-    text-align: justify;
-    opacity: 0.75;
-}
-
-/* MODALS */
-.modal-overlay {
-    position: fixed !important; top: 0; left: 0; width: 100vw; height: 100vh;
-    background-color: var(--modal-overlay); display: none; align-items: center; justify-content: center; z-index: 99999; backdrop-filter: blur(4px);
-}
-.modal-content { background-color: var(--bg-surface); border-radius: 15px; width: 90%; max-width: 450px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-.modal-header { background-color: #e74c3c; color: white; padding: 1.2rem; display: flex; justify-content: space-between; align-items: center;}
-.modal-close-btn { background: transparent; border: none; color: white; font-size: 1.8rem; cursor: pointer; line-height: 1;}
-.modal-body { padding: 2rem 1.5rem; color: var(--text-primary); font-size: 1.1rem; line-height: 1.5;}
-#custom-alert-text { margin: 0; padding: 0; font-weight: normal; }
-.modal-footer { padding: 1rem; background-color: var(--table-header-bg); text-align: right; border-top: 1px solid var(--border-color);}
-.modal-footer button { margin: 0; padding: 0.6rem 1.5rem; border-radius: 8px;}
-
-/* Mobile Tweaks */
-@media (max-width: 768px) {
-    .app-header { flex-direction: column; height: auto; padding: 1.5rem; padding-top: 3.5rem; }
-    .theme-toggle-btn { position: static; margin-top: 1.5rem; transform: none; }
-    .header-left { position: absolute; left: 1.5rem; top: 1.2rem; transform: none; }
-    
-    .app-container { flex-direction: column; }
-    
-    /* Reduced heavy desktop padding so mobile content actually fits */
-    .calculator-display { padding: 1rem; } 
-    
-    .sidebar { display: none; width: 100%; }
-    .sidebar.open { display: block; border-right: none; border-bottom: 1px solid var(--border-color); }
-    
-    /* Restored to 100vw to ensure width is perfectly stable */
-    .sidebar-inner { width: 100vw; box-sizing: border-box; }
-    
-    .sidebar li.nav-divider { display: none; }
-    .input-grid { grid-template-columns: 1fr; }
-    .app-disclaimer-footer { margin-top: 2.5rem; }
-}
+    border-radius: 12px;
