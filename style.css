@@ -254,6 +254,7 @@ body {
     flex: 1;
     padding: 2.5rem;
     background-color: var(--bg-surface);
+    min-width: 0; /* THE FLEXBOX FIX: Prevents container from stretching infinitely */
 }
 
 /* Center the modules */
@@ -261,6 +262,7 @@ body {
     max-width: 950px;
     margin: 0 auto;
     width: 100%;
+    min-width: 0; /* THE FLEXBOX FIX: Prevents module from stretching infinitely */
 }
 
 /* Feature Cards */
@@ -340,24 +342,23 @@ input[type=number] {
     border: 1px solid var(--border-color); 
     border-radius: 12px; 
     margin-top: 1rem; 
-    overflow: hidden; /* Restored to clip the rounded corners properly */
+    overflow: hidden; 
 }
 
-/* NEW: Dedicated wrapper just for the scrolling table */
+/* THE BULLETPROOF SCROLL WRAPPER */
 .table-scroll-wrapper {
     width: 100%;
-    max-width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
 
 .results-table { 
     width: 100%; 
+    min-width: 700px; /* THE BRUTE FORCE FIX: Refuses to shrink on mobile */
     border-collapse: collapse; 
     background-color: var(--bg-surface); 
 }
 
-/* Prevent text wrapping on narrow screens to trigger the scrollbar */
 .results-table th,
 .results-table td {
     padding: 1.2rem 1rem;
@@ -427,6 +428,9 @@ input[type=number] {
     .header-left { position: absolute; left: 1.5rem; top: 1.2rem; transform: none; }
     
     .app-container { flex-direction: column; }
+    
+    /* Reduced heavy desktop padding so mobile content actually fits */
+    .calculator-display { padding: 1rem; } 
     
     .sidebar { display: none; width: 100%; }
     .sidebar.open { display: block; border-right: none; border-bottom: 1px solid var(--border-color); }
