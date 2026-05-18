@@ -12,34 +12,34 @@ html, body {
 :root {
     --bg-body: #f0f2f5;
     --bg-surface: #ffffff;
-    --text-primary: #333333;
-    --text-secondary: #666666;
+    --text-primary: #222222; 
+    --text-secondary: #555555; 
     --border-color: #e0e0e0;
     --border-light: #eeeeee;
-    --header-bg: #2c3e50;
+    --header-bg: #22303e; 
     --header-text: #ffffff;
     --sidebar-bg: #f8f9fa;
     --sidebar-card-bg: #ffffff;
-    --sidebar-link: #34495e;
-    --sidebar-link-active: #3498db;
+    --sidebar-link: #2c3e50; 
+    --sidebar-link-active: #227cbf; 
     --card-shadow: 0 2px 5px rgba(0,0,0,0.08);
     --card-shadow-hover: 0 5px 15px rgba(0,0,0,0.12);
-    --primary-btn: #3498db;
-    --primary-btn-hover: #2980b9;
+    --primary-btn: #227cbf; 
+    --primary-btn-hover: #1a6299; 
     --primary-btn-text: #ffffff;
     --info-bg: #eaf4fc;
-    --info-border: #3498db;
-    --info-text: #2c3e50;
+    --info-border: #227cbf;
+    --info-text: #1a252f;
     --guide-bg: #fdf2e9;
-    --guide-border: #e67e22;
+    --guide-border: #c85a17; 
     --density-bg: #eafaf1;
-    --density-border: #2ecc71;
+    --density-border: #229954; 
     --table-header-bg: #f8f9fa;
     --table-row-even: #fafbfc;
     --table-hover: #eaf4fc;
     --input-bg: #ffffff;
-    --input-border: #cccccc;
-    --input-text: #333333;
+    --input-border: #888888; 
+    --input-text: #222222;
     --modal-overlay: rgba(0, 0, 0, 0.6);
 }
 
@@ -47,19 +47,19 @@ html, body {
     --bg-body: #0f0f0f;
     --bg-surface: #1a1a1a;
     --text-primary: #ffffff;
-    --text-secondary: #cccccc;
-    --border-color: #2d2d2d;
+    --text-secondary: #d4d4d4; 
+    --border-color: #333333; 
     --border-light: #252525;
     --header-bg: #161b22;
     --header-text: #e0e0e0;
     --sidebar-bg: #121212;
     --sidebar-card-bg: #1e1e1e;
-    --sidebar-link: #b0b0b0;
+    --sidebar-link: #cccccc;
     --sidebar-link-active: #5faee3;
     --card-shadow: 0 4px 10px rgba(0,0,0,0.4);
     --card-shadow-hover: 0 8px 20px rgba(0,0,0,0.6);
-    --primary-btn: #2980b9;
-    --primary-btn-hover: #3498db;
+    --primary-btn: #227cbf; 
+    --primary-btn-hover: #3498db; 
     --primary-btn-text: #ffffff;
     --info-bg: #1e2a35;
     --info-border: #5faee3;
@@ -67,12 +67,12 @@ html, body {
     --guide-bg: #2d1d12;
     --guide-border: #e67e22;
     --density-bg: #142b1e;
-    --density-border: #2ecc71;
+    --density-border: #2ecc71; 
     --table-header-bg: #2a3744; 
     --table-row-even: #222222;
     --table-hover: #3d566e;
     --input-bg: #252525;
-    --input-border: #555555;
+    --input-border: #777777; 
     --input-text: #ffffff;
     --modal-overlay: rgba(0, 0, 0, 0.8);
 }
@@ -84,6 +84,43 @@ body {
     line-height: 1.6;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* =========================================
+ * ACCESSIBILITY: SKIP NAVIGATION LINK
+ * ========================================= */
+.skip-nav-link {
+    position: absolute;
+    top: -100px; 
+    left: 20px;
+    background-color: var(--sidebar-link-active);
+    color: #ffffff;
+    padding: 10px 20px;
+    font-weight: 700;
+    border-radius: 0 0 8px 8px;
+    z-index: 999999;
+    text-decoration: none;
+    transition: top 0.3s ease;
+}
+
+.skip-nav-link:focus {
+    top: 0; 
+    outline: 3px solid #ffffff !important;
+}
+
+/* =========================================
+ * ACCESSIBILITY: FOCUS MANAGEMENT 
+ * ========================================= */
+*:focus-visible {
+    outline: 3px solid var(--sidebar-link-active) !important;
+    outline-offset: 3px !important;
+    border-radius: 4px; 
+}
+
+*:focus:not(:focus-visible) {
+    outline: none;
+}
+
+h2:focus { outline: none !important; }
 
 /* Layout Components */
 .app-header {
@@ -99,46 +136,62 @@ body {
     z-index: 100;
 }
 
+/* NEW FLEXBOX HEADER WRAPPER */
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 /* Centered Title & Email Block */
 .header-titles {
+    flex: 1; 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
+    padding: 0 1rem; 
 }
 
+/* Two-tone title effect */
 .header-titles h1 {
-    font-size: 1.6rem;
-    letter-spacing: 1px;
+    font-size: 1.4rem; 
+    letter-spacing: 0.5px;
     margin: 0;
     line-height: 1.2;
+    font-weight: 400; 
 }
 
-.header-email {
+.header-titles h1 strong {
+    font-weight: 800;
+    color: var(--sidebar-link-active); 
+}
+
+/* Modern pill badge for the disclaimer */
+.header-disclaimer-badge {
+    margin-top: 0.4rem;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     color: var(--header-text);
-    text-decoration: none;
-    font-size: 0.95rem;
-    opacity: 0.85;
-    margin-top: 0.2rem;
-    transition: opacity 0.2s ease, color 0.2s ease;
+    background-color: rgba(255, 255, 255, 0.15); 
+    border-radius: 50px;
 }
 
-.header-email:hover {
-    opacity: 1;
-    color: var(--sidebar-link-active);
-    text-decoration: underline;
-}
-
-/* Header Buttons Positioning */
-.header-left {
-    position: absolute;
-    left: 2rem;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+[data-theme="dark"] .header-disclaimer-badge {
+    background-color: rgba(0, 0, 0, 0.3); 
+    color: var(--text-secondary);
 }
 
 .sidebar-toggle-btn, .home-nav-btn {
@@ -162,10 +215,6 @@ body {
 }
 
 .theme-toggle-btn {
-    position: absolute; 
-    right: 2rem;
-    top: 50%;
-    transform: translateY(-50%);
     background-color: transparent;
     border: 1.5px solid var(--header-text);
     color: var(--header-text);
@@ -263,7 +312,7 @@ body {
     width: 100%;
 }
 
-/* Feature Cards */
+/* Feature Cards (Converted to buttons for A11y) */
 .feature-card {
     cursor: pointer;
     border: 1px solid var(--border-color);
@@ -271,10 +320,28 @@ body {
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
+    background: transparent;
+    font-family: inherit;
+    font-size: 1rem;
+    text-align: left;
+    color: var(--text-primary);
+    width: 100%;
 }
 
-.feature-card:hover { transform: translateY(-5px); border-color: var(--sidebar-link-active); }
+.feature-card:hover, .feature-card:focus-visible { 
+    transform: translateY(-5px); 
+    border-color: var(--sidebar-link-active); 
+}
 .feature-card strong { color: var(--sidebar-link-active); font-size: 1.1rem; margin-bottom: 0.5rem; }
+
+/* FIX: Restores paragraph formatting to spans inside the new accessible buttons */
+.feature-card span:not(.card-action) {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    display: block;
+}
+
 .card-action { display: block; margin-top: 1rem; font-weight: bold; color: var(--sidebar-link-active); font-size: 0.8rem; }
 
 /* Forms & Inputs */
@@ -303,12 +370,7 @@ body {
 }
 
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-
-/* FIXED COMPATIBILITY PER EDITOR WARNING */
-input[type=number] { 
-    -moz-appearance: textfield; 
-    appearance: textfield;
-}
+input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 
 /* UI Decoration */
 .info-box { background-color: var(--info-bg); border-left: 4px solid var(--info-border); padding: 1.2rem; margin-bottom: 1.5rem; border-radius: 8px; color: var(--text-primary); }
@@ -319,7 +381,11 @@ input[type=number] {
 .calculator-module p { color: var(--text-secondary); margin-bottom: 1rem; }
 
 /* Buttons */
-.calculator-module button {
+.calculator-module button#btn-calc-ipc, 
+.calculator-module button#btn-calc-hole-to-pad, 
+.calculator-module button#btn-calc-pad-radius, 
+.calculator-module button#btn-calc-courtyard, 
+.calculator-module button#btn-calc-name-gen {
     display: block;
     margin: 2.5rem auto;
     padding: 1rem 3rem;
@@ -333,7 +399,7 @@ input[type=number] {
     box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2);
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
-.calculator-module button:hover { background-color: var(--primary-btn-hover); }
+.calculator-module button[id^="btn-calc-"]:hover { background-color: var(--primary-btn-hover); }
 
 /* TABLES & ROBUST HIGHLIGHTS */
 .results-container { border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; margin-top: 1rem; }
@@ -370,13 +436,13 @@ input[type=number] {
     font-size: 1.1rem;
 }
 
-/* THE FIX: .calculator-module .copy-btn overrides the global button settings! */
+/* Pure Icon Aesthetic: No borders, no backgrounds */
 .calculator-module .copy-btn {
-    background-color: transparent !important; /* Strips the blue background */
+    background-color: transparent !important;
     border: none !important; 
-    box-shadow: none !important; /* Strips the blue glow/border */
-    outline: none; /* Removes browser default focus ring */
-    margin: 0; /* Strips the giant auto margins */
+    box-shadow: none !important; 
+    outline: none; 
+    margin: 0; 
     color: var(--text-secondary);
     cursor: pointer;
     padding: 0.4rem;
@@ -390,7 +456,7 @@ input[type=number] {
     width: auto;
 }
 
-.calculator-module .copy-btn:hover {
+.calculator-module .copy-btn:hover, .calculator-module .copy-btn:focus-visible {
     background-color: transparent !important;
     box-shadow: none !important;
     color: var(--sidebar-link-active); 
@@ -430,7 +496,15 @@ input[type=number] {
  * ========================================= */
 @media (max-width: 768px) {
     .app-header { flex-direction: column; height: auto; padding: 1.5rem; padding-top: 4.5rem; }
-    .theme-toggle-btn { position: static; margin-top: 1.5rem; transform: none; }
+    
+    .header-content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    /* Re-apply absolute positioning strictly for narrow portrait mobile screens */
+    .theme-toggle-btn { position: absolute; right: 1.5rem; top: 1.2rem; margin-top: 0; transform: none; }
     .header-left { position: absolute; left: 1.5rem; top: 1.2rem; transform: none; }
     
     .app-container { flex-direction: column; }
