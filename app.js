@@ -34,7 +34,7 @@ function initSkipLink() {
                 // Focus the title of the active page for the screen reader
                 const heading = activeModule.querySelector('h2');
                 if (heading) {
-                    heading.focus();
+                    heading.focus({ preventScroll: true });
                 }
             }
         });
@@ -72,7 +72,7 @@ function initSidebarToggle() {
             sidebar.classList.remove('open');
             toggleBtn.setAttribute('aria-expanded', 'false');
             localStorage.setItem('sidebarState', 'collapsed');
-            toggleBtn.focus();
+            toggleBtn.focus({ preventScroll: true });
         }
     });
 }
@@ -181,11 +181,16 @@ function switchModule(targetId, isFreshNavigation = false) {
         }
     });
 
-    window.scrollTo(0, 0);
+    // FIX 1: Override native browser anchor-jumping by pushing the scroll command 
+    // to the back of the execution queue using a brief timeout.
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+    }, 10);
 
     // ACCESSIBILITY: Shift programmatic focus to the new page context heading
     if (targetHeading && isFreshNavigation) {
-        targetHeading.focus();
+        // FIX 2: Prevent the browser from jerking the scrollbar down to the focused element
+        targetHeading.focus({ preventScroll: true });
     }
 }
 
@@ -272,7 +277,7 @@ function initModalEvents() {
         modal.style.display = 'none';
         // Restore focus to original element when modal closes
         if (previousFocusElement) {
-            previousFocusElement.focus();
+            previousFocusElement.focus({ preventScroll: true });
         }
     }
 
@@ -300,12 +305,12 @@ function initModalEvents() {
 
             if (e.shiftKey) { // Shift + Tab
                 if (document.activeElement === firstElement) {
-                    lastElement.focus();
+                    lastElement.focus({ preventScroll: true });
                     e.preventDefault();
                 }
             } else { // Tab
                 if (document.activeElement === lastElement) {
-                    firstElement.focus();
+                    firstElement.focus({ preventScroll: true });
                     e.preventDefault();
                 }
             }
@@ -317,6 +322,6 @@ function initModalEvents() {
         document.getElementById('custom-alert-text').textContent = message;
         modal.style.display = 'flex';
         // Immediately force focus to the close button so keyboard users aren't lost
-        closeBtn.focus();
+        closeBtn.focus({ preventScroll: true });
     };
 }
