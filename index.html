@@ -57,6 +57,9 @@
                     <li><a href="javascript:void(0)" data-target="calc-ipc-pad-radius">Pad Corner Radius</a></li>
                     <li><a href="javascript:void(0)" data-target="calc-ipc-courtyard">Courtyard Size</a></li>
                     <li><a href="javascript:void(0)" data-target="calc-ipc-name-gen">IPC Name Generator</a></li>
+                    
+                    <li class="nav-divider" aria-hidden="true"></li>
+                    <li><a href="javascript:void(0)" data-target="calc-ipc-area-ratio">Stencil Area Ratio <span class="beta-badge">BETA</span></a></li>
                 </ul>
             </div>
         </nav>
@@ -98,6 +101,12 @@
                         <button class="info-box feature-card" data-link="calc-ipc-name-gen" style="text-align: left;">
                             <strong>IPC Name Generator</strong>
                             <span>Automatically format standard footprint names based on component dimensions.</span>
+                            <span class="card-action">Open Tool →</span>
+                        </button>
+                        
+                        <button class="info-box feature-card" data-link="calc-ipc-area-ratio" style="text-align: left;">
+                            <strong>Stencil Area Ratio <span class="beta-badge">BETA</span></strong>
+                            <span>Verify reliable solder paste release from standard stencils before sending boards to manufacturing (IPC-7525).</span>
                             <span class="card-action">Open Tool →</span>
                         </button>
                     </div>
@@ -432,6 +441,56 @@
                 </div>
             </div>
 
+            <div id="calc-ipc-area-ratio" class="calculator-module" style="display: none;">
+                <h2 tabindex="-1">Stencil Area Ratio <span class="beta-badge">BETA</span></h2>
+                <p>Calculates solder paste release viability from standard stencils (IPC-7525 DFM check).</p>
+                
+                <div class="info-box">
+                    <strong>What is the Stencil Area Ratio?</strong>
+                    <p style="margin-top: 0.5rem; margin-bottom: 0;">It is the mathematical ratio between the aperture opening area (where paste touches the PCB) and the internal aperture wall area (where paste touches the stencil). IPC-7525 dictates this ratio must be <strong>greater than 0.66</strong>. If it falls below this limit, friction causes the solder paste to get stuck inside the stencil instead of releasing cleanly onto your pad.</p>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-group full-span">
+                        <label for="ar-shape">Aperture Shape:</label>
+                        <select id="ar-shape">
+                            <option value="rectangular">Rectangular / Square</option>
+                            <option value="circular">Circular / Round</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label id="label-ar-dim-x" for="ar-dim-x">Aperture Width (X) (mm):</label>
+                        <input type="number" id="ar-dim-x" step="any" placeholder="e.g., 0.30">
+                    </div>
+                    
+                    <div class="input-group" id="group-ar-dim-y">
+                        <label for="ar-dim-y">Aperture Length (Y) (mm):</label>
+                        <input type="number" id="ar-dim-y" step="any" placeholder="e.g., 0.60">
+                    </div>
+                    
+                    <div class="input-group full-span">
+                        <label for="ar-thickness">Stencil Thickness (mm):</label>
+                        <input type="number" id="ar-thickness" step="any" value="0.127" placeholder="Standard is 0.127mm (5 mil)">
+                    </div>
+                </div>
+                
+                <button id="btn-calc-area-ratio">Verify Area Ratio</button>
+                
+                <div id="area-ratio-results" class="results-container" style="display: none;" aria-live="polite">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Specification</th>
+                                <th scope="col">Output</th>
+                            </tr>
+                        </thead>
+                        <tbody id="area-ratio-results-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <footer class="app-disclaimer-footer">
                 <p><strong>Disclaimer:</strong> This suite of tools is provided for reference and educational purposes only. Calculations and formatting logic are generated based on industry standards. Because fabrication environments and manufacturing tolerances vary, no warranties are provided, express or implied, regarding absolute accuracy or compliance. Use at your own risk. Always verify final patterns against official component datasheets and manufacturer guidelines before processing production orders.</p>
             </footer>
@@ -461,5 +520,6 @@
     <script src="calculators/ipc-pad-radius.js"></script>
     <script src="calculators/ipc-courtyard.js"></script>
     <script src="calculators/ipc-name-generator.js"></script>
+    <script src="calculators/ipc-area-ratio.js"></script>
 </body>
 </html>
