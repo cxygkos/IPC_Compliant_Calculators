@@ -41,6 +41,12 @@ html, body {
     --input-border: #888888; 
     --input-text: #222222;
     --modal-overlay: rgba(0, 0, 0, 0.6);
+    
+    /* BETA Badge & Pass/Fail Status Colors */
+    --beta-bg: #c85a17;
+    --beta-text: #ffffff;
+    --status-pass: #229954;
+    --status-fail: #d32f2f;
 }
 
 [data-theme="dark"] {
@@ -75,6 +81,12 @@ html, body {
     --input-border: #777777; 
     --input-text: #ffffff;
     --modal-overlay: rgba(0, 0, 0, 0.8);
+    
+    /* BETA Badge & Pass/Fail Status Colors */
+    --beta-bg: #e67e22;
+    --beta-text: #121212; /* Black on orange for WCAG contrast */
+    --status-pass: #2ecc71;
+    --status-fail: #ff6b6b;
 }
 
 body {
@@ -282,7 +294,7 @@ h2:focus { outline: none !important; }
     box-shadow: var(--card-shadow);
     border: 1px solid var(--border-color);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    text-align: center;
+    text-align: left;
 }
 
 .sidebar a:hover {
@@ -297,6 +309,26 @@ h2:focus { outline: none !important; }
     color: #ffffff;
     border-color: var(--sidebar-link-active);
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+/* BETA Tag Styling */
+.beta-badge {
+    background-color: var(--beta-bg);
+    color: var(--beta-text);
+    font-size: 0.7rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    margin-left: 8px;
+    vertical-align: middle;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Active sidebar link overrides beta text color for visibility */
+.sidebar a.active .beta-badge {
+    background-color: #ffffff;
+    color: var(--sidebar-link-active);
 }
 
 .calculator-display {
@@ -332,10 +364,10 @@ h2:focus { outline: none !important; }
     transform: translateY(-5px); 
     border-color: var(--sidebar-link-active); 
 }
-.feature-card strong { color: var(--sidebar-link-active); font-size: 1.1rem; margin-bottom: 0.5rem; }
+.feature-card strong { color: var(--sidebar-link-active); font-size: 1.1rem; margin-bottom: 0.5rem; display: flex; align-items: center; }
 
 /* FIX: Restores paragraph formatting to spans inside the new accessible buttons */
-.feature-card span:not(.card-action) {
+.feature-card span:not(.card-action):not(.beta-badge) {
     color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: 1rem;
@@ -377,15 +409,15 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 .guide-box { background-color: var(--guide-bg); border-left-color: var(--guide-border); }
 .density-guide { border-left-color: var(--density-border); background-color: var(--density-bg); margin: 1.5rem; }
 
-.calculator-module h2 { margin-bottom: 0.5rem; color: var(--text-primary); }
+.calculator-module h2 { margin-bottom: 0.5rem; color: var(--text-primary); display: flex; align-items: center; }
 .calculator-module p { color: var(--text-secondary); margin-bottom: 1rem; }
 
+/* Status Text Modifiers */
+.text-pass { color: var(--status-pass) !important; font-weight: 800; font-size: 1.1rem; }
+.text-fail { color: var(--status-fail) !important; font-weight: 800; font-size: 1.1rem; }
+
 /* Buttons */
-.calculator-module button#btn-calc-ipc, 
-.calculator-module button#btn-calc-hole-to-pad, 
-.calculator-module button#btn-calc-pad-radius, 
-.calculator-module button#btn-calc-courtyard, 
-.calculator-module button#btn-calc-name-gen {
+.calculator-module button[id^="btn-calc-"] {
     display: block;
     margin: 2.5rem auto;
     padding: 1rem 3rem;
@@ -436,7 +468,7 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
     font-size: 1.1rem;
 }
 
-/* Pure Icon Aesthetic: No borders, no backgrounds */
+/* Pure Icon Aesthetic */
 .calculator-module .copy-btn {
     background-color: transparent !important;
     border: none !important; 
@@ -492,6 +524,31 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 .modal-footer button { margin: 0; padding: 0.6rem 1.5rem; border-radius: 8px;}
 
 /* =========================================
+ * PURE CSS "LATEX" MATH FRACTIONS
+ * ========================================= */
+.math-fraction {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch; 
+    text-align: center;   
+    vertical-align: middle;
+    font-family: "Cambria Math", "Times New Roman", serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    margin: 0; /* FIX: Removed the 0.5rem horizontal margin to perfectly align with the column */
+    line-height: 1.2;
+}
+
+.math-fraction .numerator {
+    border-bottom: 1.5px solid var(--text-primary);
+    padding: 0.1rem 0.3rem;
+}
+
+.math-fraction .denominator {
+    padding: 0.1rem 0.3rem;
+}
+
+/* =========================================
  * MOBILE TWEAKS
  * ========================================= */
 @media (max-width: 768px) {
@@ -503,7 +560,6 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
         width: 100%;
     }
     
-    /* Re-apply absolute positioning strictly for narrow portrait mobile screens */
     .theme-toggle-btn { position: absolute; right: 1.5rem; top: 1.2rem; margin-top: 0; transform: none; }
     .header-left { position: absolute; left: 1.5rem; top: 1.2rem; transform: none; }
     
