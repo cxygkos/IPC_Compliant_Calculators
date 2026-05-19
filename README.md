@@ -8,11 +8,13 @@ A standards-compliant suite of web-based electrical engineering utility calculat
   
 - ***Datasheet Hole to Pad Size Calculator:*** Reverses standard IPC formulas to reconstruct necessary land patterns when component manufacturer datasheets only specify recommended finished hole or slot dimensions.
   
-- ***Pad Corner Radius:*** Calculates optimal IPC-7351 rounded corner radii for SMD pads to improve solder paste release, capped at standard maximums.
+- ***Pad Corner Radius Calculator:*** Calculates optimal IPC-7351 rounded corner radii for SMD pads to improve solder paste release, capped at standard maximums.
   
 - ***IPC-7351 Courtyard Calculator:*** Synthesizes minimum clearance perimeters (Courtyards) to protect automated placement boundaries during pick-and-place assembly, optical inspections, and manual rework loops.
   
 - ***Universal IPC Name Generator:*** Automates standardized naming formatting for both **IPC-7351 (SMD)** and **IPC-7251 (THT)** component packages, encouraging cleaner BOM architecture and CAD library management.
+
+- ***Stencil Area Ratio Calculator:*** Evaluates solder paste release viability per IPC-7525. Calculates if your pad geometry and stencil thickness meet the critical >0.66 area ratio threshold, and provides dynamic troubleshooting steps if a design fails the manufacturing check.
 
 ## ♿ Accessibility (WCAG 2.1 AA Compliant)
 
@@ -32,9 +34,10 @@ This application was engineered to meet strict European Accessibility Act (EAA) 
 └── calculators/
     ├── ipc-pad-hole.js             # Analytical math for through-hole pin transformations
     ├── ipc-hole-to-pad.js          # Analytical inverse math for finished-hole processing
+    ├── ipc-pad-radius.js           # Optimal SMD pad corner rounding determination
     ├── ipc-courtyard.js            # Boundaries rounding and clearance mapping logic
     ├── ipc-name-generator.js       # Architectural lookup dictionary and prefix parsing compiler
-    └── ipc-pad-radius.js           # Optimal SMD pad corner rounding determination
+    └── ipc-area-ratio.js           # Stencil solder paste release viability determination
 ```
 ## 🛠️ Installation & Setup
 
