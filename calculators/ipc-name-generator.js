@@ -11,7 +11,7 @@ const IPC_FAMILIES = {
             'RESC (Resistor, Chip)', 
             'CAPC (Capacitor, Chip)', 
             'INDC (Inductor, Chip)', 
-            'INDW (Inductor, Wirewound)', // Added Wirewound Chip Inductor
+            'INDW (Inductor, Wirewound)',
             'FUSC (Fuse, Chip)', 
             'LEDC (LED, Chip)', 
             'VARC (Varistor)', 
@@ -66,7 +66,7 @@ const IPC_FAMILIES = {
             'CAPPRD (Radial Capacitor, Polarized)', 
             'CAPRD (Radial Capacitor, Non-Polarized)', 
             'RESRD (Radial Resistor)', 
-            'INDRD (Radial Inductor)', // Added Radial Inductor
+            'INDRD (Radial Inductor)',
             'LEDRD (Radial LED)', 
             'VAR (Radial Varistor)'
         ],
@@ -292,12 +292,12 @@ function generateIPCNames() {
         copyBtn.addEventListener('click', function() {
             navigator.clipboard.writeText(finalName).then(() => {
                 this.innerHTML = faCheckIcon;
-                this.style.color = 'var(--density-border)'; // Turns the icon green
+                this.style.color = 'var(--density-border)';
                 
                 // Reverts back to standard fa-copy icon after 2 seconds
                 setTimeout(() => {
                     this.innerHTML = faCopyIcon;
-                    this.style.color = ''; // Clears inline color to inherit from CSS again
+                    this.style.color = '';
                 }, 2000);
             }).catch(err => {
                 console.error("Failed to copy text: ", err);

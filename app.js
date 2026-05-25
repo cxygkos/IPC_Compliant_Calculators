@@ -181,15 +181,14 @@ function switchModule(targetId, isFreshNavigation = false) {
         }
     });
 
-    // FIX 1: Override native browser anchor-jumping by pushing the scroll command 
-    // to the back of the execution queue using a brief timeout.
+    // Override native browser anchor-jumping by pushing the scroll command to the back of the execution queue using a brief timeout.
     setTimeout(() => {
         window.scrollTo(0, 0);
     }, 10);
 
     // ACCESSIBILITY: Shift programmatic focus to the new page context heading
     if (targetHeading && isFreshNavigation) {
-        // FIX 2: Prevent the browser from jerking the scrollbar down to the focused element
+        // Prevent the browser from jerking the scrollbar down to the focused element
         targetHeading.focus({ preventScroll: true });
     }
 }

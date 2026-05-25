@@ -121,7 +121,6 @@ function calculateIpcPadHole() {
         } else if (annularPref === 'custom') {
             annularRing = customAnnularMM;
         } else {
-            // It's one of the fixed dropdown values (e.g., "0.15")
             annularRing = parseFloat(annularPref);
         }
 
