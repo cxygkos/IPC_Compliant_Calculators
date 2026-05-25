@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
         calcBtn.addEventListener('click', calculatePadFromHole);
     }
 
-    // Bind Enter keypress for all possible inputs in this module
     const inputs = ['hole-input-size', 'pad-input-x', 'slot-input-length', 'slot-input-width', 'hole-input-unit'];
     inputs.forEach(id => {
         const element = document.getElementById(id);
@@ -60,7 +59,7 @@ function calculatePadFromHole() {
     const resultsContainer = document.getElementById('hole-to-pad-results');
     const tbody = document.getElementById('hole-to-pad-results-body');
     
-    let baseDim1 = 0, baseDim2 = 0; // Will represent Diameter/Length and Width
+    let baseDim1 = 0, baseDim2 = 0;
     let isSlotOrOblong = (type === 'oblong' || type === 'slot');
     let fixedXMM = 0;
 
