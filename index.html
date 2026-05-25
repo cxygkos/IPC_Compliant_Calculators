@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPC compliant calculators</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; form-action 'none'; base-uri 'self';">
     <script>
         (function() {
             const storedTheme = localStorage.getItem("theme");
@@ -492,7 +493,7 @@
             </div>
 
             <footer class="app-disclaimer-footer">
-                <p><strong>Disclaimer:</strong> This suite of tools is provided for reference and educational purposes only. Calculations and formatting logic are generated based on industry standards. Because fabrication environments and manufacturing tolerances vary, no warranties are provided, express or implied, regarding absolute accuracy or compliance. Use at your own risk. Always verify final patterns against official component datasheets and manufacturer guidelines before processing production orders.</p>
+                <p><strong>Disclaimer:</strong> This application runs entirely in your browser. No personal data, tracking cookies, or engineering inputs are collected, stored, or transmitted by this tool. This suite of tools is provided for reference and educational purposes only. Calculations and formatting logic are generated based on industry standards. Because fabrication environments and manufacturing tolerances vary, no warranties are provided, express or implied, regarding absolute accuracy or compliance. Use at your own risk. Always verify final patterns against official component datasheets and manufacturer guidelines before processing production orders.</p>
             </footer>
 
         </section>
