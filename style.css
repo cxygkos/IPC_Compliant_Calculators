@@ -42,7 +42,6 @@ html, body {
     --input-text: #222222;
     --modal-overlay: rgba(0, 0, 0, 0.6);
     
-    /* BETA Badge & Pass/Fail Status Colors */
     --beta-bg: #c85a17;
     --beta-text: #ffffff;
     --status-pass: #229954;
@@ -82,9 +81,8 @@ html, body {
     --input-text: #ffffff;
     --modal-overlay: rgba(0, 0, 0, 0.8);
     
-    /* BETA Badge & Pass/Fail Status Colors */
     --beta-bg: #e67e22;
-    --beta-text: #121212; /* Black on orange for WCAG contrast */
+    --beta-text: #121212;
     --status-pass: #2ecc71;
     --status-fail: #ff6b6b;
 }
@@ -148,7 +146,6 @@ h2:focus { outline: none !important; }
     z-index: 100;
 }
 
-/* NEW FLEXBOX HEADER WRAPPER */
 .header-content {
     display: flex;
     justify-content: space-between;
@@ -163,7 +160,6 @@ h2:focus { outline: none !important; }
     gap: 0.5rem;
 }
 
-/* Centered Title & Email Block */
 .header-titles {
     flex: 1; 
     display: flex;
@@ -188,7 +184,6 @@ h2:focus { outline: none !important; }
     color: var(--sidebar-link-active); 
 }
 
-/* Modern pill badge for the disclaimer */
 .header-disclaimer-badge {
     margin-top: 0.4rem;
     padding: 0.2rem 0.6rem;
@@ -366,7 +361,6 @@ h2:focus { outline: none !important; }
 }
 .feature-card strong { color: var(--sidebar-link-active); font-size: 1.1rem; margin-bottom: 0.5rem; display: flex; align-items: center; }
 
-/* FIX: Restores paragraph formatting to spans inside the new accessible buttons */
 .feature-card span:not(.card-action):not(.beta-badge) {
     color: var(--text-secondary);
     line-height: 1.6;
@@ -535,7 +529,7 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
     font-family: "Cambria Math", "Times New Roman", serif;
     font-style: italic;
     font-size: 1.15rem;
-    margin: 0; /* FIX: Removed the 0.5rem horizontal margin to perfectly align with the column */
+    margin: 0;
     line-height: 1.2;
 }
 
