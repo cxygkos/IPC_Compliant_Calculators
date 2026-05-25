@@ -6,17 +6,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const calcBtn = document.getElementById('btn-calc-area-ratio');
     const shapeSelect = document.getElementById('ar-shape');
     const groupY = document.getElementById('group-ar-dim-y');
-    const labelX = document.getElementById('label-ar-dim-x'); // New label reference
+    const labelX = document.getElementById('label-ar-dim-x');
     
     // Toggle Y dimension visibility and X label text based on shape
     if (shapeSelect && groupY && labelX) {
         shapeSelect.addEventListener('change', (e) => {
             if (e.target.value === 'circular') {
                 groupY.style.display = 'none';
-                labelX.textContent = "Aperture Diameter (mm):"; // Update label
+                labelX.textContent = "Aperture Diameter (mm):";
             } else {
                 groupY.style.display = 'flex';
-                labelX.textContent = "Aperture Width (X) (mm):"; // Revert label
+                labelX.textContent = "Aperture Width (X) (mm):";
             }
         });
     }
